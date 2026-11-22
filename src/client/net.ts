@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { RoomView } from '../engine/room';
 import { RoomClient, createRoom, deleteGame, listGames, randomId, roomExists, type GameRow } from './roomClient';
-import { openStore, type Store } from './store';
+import { WsStore, openStore, type Store } from './store';
 
 export type { GameRow };
 
@@ -78,6 +78,9 @@ export async function removeGame(code: string): Promise<void> {
 
 /** Who else has this room open right now, through the `room` presence capability (when available). */
 async function trackPresence(client: RoomClient): Promise<() => void> {
+  if (store instanceof WsStore) {
+    return store.presence(`ee-${client.code.toLowerCase()}`, clientId, (cids) => client.setConnected(new Set(cids)));
+  }
   try {
     const claude = (globalThis as any).claude;
     const rooms = claude?.use ? await claude.use('room') : null;

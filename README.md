@@ -32,6 +32,15 @@ If Windows Firewall asks whether to allow Node.js on private networks, click **A
 
 > Playing across different networks (over the internet) needs port forwarding or a tunnel (e.g. a VPN such as Tailscale). That isn't built in.
 
+### Hosting on Cloudflare (online play over the internet)
+
+The game is a Cloudflare Worker: `dist/` is served as static assets, and `/ws` connects to a Durable Object (`worker/index.js`) that stores the shared room documents. The host's browser still runs the game, so the host should keep their page open.
+
+```bash
+npm run build && npx wrangler deploy     # deploy
+npm run build && npx wrangler dev        # run locally on http://localhost:8787
+```
+
 ### Development mode (hot reload)
 
 ```bash

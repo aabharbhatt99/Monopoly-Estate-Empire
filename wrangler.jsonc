@@ -1,0 +1,8 @@
+{
+  "name": "estate-empire",
+  "main": "worker/index.js",
+  "compatibility_date": "2025-01-01",
+  "assets": { "directory": "./dist", "binding": "ASSETS", "run_worker_first": ["/ws"] },
+  "durable_objects": { "bindings": [{ "name": "HUB", "class_name": "StoreHub" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["StoreHub"] }]
+}
